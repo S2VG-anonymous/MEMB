@@ -10,7 +10,6 @@ from core import get_vars
 class ReplayBuffer:
     """
     The replay buffer used to uniformly sample the data
-
     """
 
     def __init__(self, obs_dim, act_dim, size):
@@ -39,16 +38,13 @@ class ReplayBuffer:
                     done=self.done_buf[idxs])
 
 """
-
-Soft Stochastic Value Gradient
-
+Model Embedding Model Based Algorithm
 (with TD3 style Q value function update)
-
 """
 
 
 
-def s2vg(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
+def memb(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
         steps_per_epoch=1000, epochs=100, replay_size=int(1e6), gamma=0.99,
         polyak=0.995, model_lr=3e-4, value_lr=1e-3, pi_lr=3e-4, alpha=0.4,
         batch_size=100, start_steps=1000,max_ep_len=1000, save_freq=1,
@@ -236,7 +232,7 @@ if __name__ == '__main__':
     for i in range(0,5):
         # repeat 5 times of experiment
         tf.reset_default_graph()
-        s2vg(lambda : gym.make(args.env), actor_critic=core.mlp_actor_critic,
+        memb(lambda : gym.make(args.env), actor_critic=core.mlp_actor_critic,
         ac_kwargs=dict(hidden_sizes=[args.hid]*args.l),gamma=args.gamma,
         seed=args.seed, epochs=args.epochs, save_freq=i,train_model_epoch=args.train_model_epoch,
         test_freq=args.test_freq, exp_name=args.exp_name, env_name=args.env_name,
